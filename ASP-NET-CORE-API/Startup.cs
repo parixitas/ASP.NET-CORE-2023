@@ -58,7 +58,7 @@ namespace ASP_NET_CORE_API
                 });
             });
 
-            services.AddDbContext<UserDbContext>(x => x.UseSqlServer("Data Source=DESKTOP-ASHELMM\\Q;Initial Catalog=ASP-NET-CORE-API;User ID=sa;password=sa123***;Integrated Security=false"), ServiceLifetime.Transient);
+            services.AddDbContext<UserDbContext>(x => x.UseSqlServer("<connectionString>"), ServiceLifetime.Transient);
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
