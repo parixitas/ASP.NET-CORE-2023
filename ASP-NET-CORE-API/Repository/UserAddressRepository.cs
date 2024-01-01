@@ -43,7 +43,7 @@ namespace ASP_NET_CORE_API.Repository
                 user.Country = request.Country;
                 user.UserId = request.UserId;
                 user.ZipCode = request.ZipCode;
-
+            
                 await _userDbContext.UserAddresses.AddAsync(user);
                 await _userDbContext.SaveChangesAsync();
                 return user;

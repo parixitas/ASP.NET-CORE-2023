@@ -40,7 +40,8 @@ namespace ASP_NET_CORE_API.Services
                     user.Phone = item.Phone;
 
                     var useraddress = await _userAddressRepository.GetUserAddress(item.Id);
-                    if (useraddress != null) {
+                    if (useraddress != null)
+                    {
                         user.UserAddresses = useraddress;
                     }
 
@@ -86,7 +87,7 @@ namespace ASP_NET_CORE_API.Services
                 SingleUserResponse response = new SingleUserResponse();
                 UserDetails userDetails = new UserDetails();
                 var user = await _userRepository.GetUserById(UserId);
-                if(user != null)
+                if (user != null)
                 {
                     userDetails.FirstName = user.FirstName;
                     userDetails.LastName = user.LastName;
@@ -119,11 +120,11 @@ namespace ASP_NET_CORE_API.Services
                     response.Message = "User Details Not Available";
                     response.Details = null;
                 }
-               
+
 
                 return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -136,7 +137,8 @@ namespace ASP_NET_CORE_API.Services
             {
                 SingleUserResponse response = new SingleUserResponse();
                 UserDetails userDetails = new UserDetails();
-                if (model != null) {
+                if (model != null)
+                {
 
                     var user = await _userRepository.AddUserData(model);
                     if (user != null)
@@ -148,15 +150,16 @@ namespace ASP_NET_CORE_API.Services
                         userDetails.Phone = user.Phone;
                         userDetails.UserId = user.Id;
 
-                        SocialMediaRequest socialMediaRequest = new SocialMediaRequest();   
+                        SocialMediaRequest socialMediaRequest = new SocialMediaRequest();
                         socialMediaRequest.UserId = user.Id;
                         socialMediaRequest.IsFacebook = model.IsFacebook;
-                        socialMediaRequest.IsWhatsApp=model.IsWhatsApp;
-                        socialMediaRequest.IsTwitter=model.IsTwitter;
+                        socialMediaRequest.IsWhatsApp = model.IsWhatsApp;
+                        socialMediaRequest.IsTwitter = model.IsTwitter;
                         socialMediaRequest.Other = model.Other;
 
                         var social = await _userSocialMediaRepository.AddUserSocialMediaData(socialMediaRequest);
-                        if(social != null) {
+                        if (social != null)
+                        {
 
                             userDetails.IsFacebook = social.IsFacebook;
                             userDetails.IsWhatsApp = social.IsWhatsApp;
@@ -167,22 +170,22 @@ namespace ASP_NET_CORE_API.Services
                         foreach (var item in model.UserAddresses)
                         {
                             AddAddressRequest addAddressRequest = new AddAddressRequest();
-                            addAddressRequest.Address = item.Address;   
+                            addAddressRequest.Address = item.Address;
                             addAddressRequest.City = item.City;
                             addAddressRequest.State = item.State;
-                            addAddressRequest.Country = item.Country;   
-                            addAddressRequest.Address2= item.Address2;  
-                            addAddressRequest.UserId=user.Id;   
+                            addAddressRequest.Country = item.Country;
+                            addAddressRequest.Address2 = item.Address2;
+                            addAddressRequest.UserId = user.Id;
 
-                            var address =await _userAddressRepository.AddUserAddressData(addAddressRequest);
-                            if(address != null)
+                            var address = await _userAddressRepository.AddUserAddressData(addAddressRequest);
+                            if (address != null)
                             {
                                 userAddresses.Add(address);
                             }
 
                         }
 
-                        if(userAddresses.Count() > 0)
+                        if (userAddresses.Count() > 0)
                         {
                             userDetails.UserAddresses = userAddresses;
                         }
@@ -204,7 +207,46 @@ namespace ASP_NET_CORE_API.Services
                 return response;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public async Task<SingleUserResponse> AddUserAddress(AddAddressRequest model)
+        {
+            try
+            {
+                SingleUserResponse response = new SingleUserResponse();
+                UserDetails userDetails = new UserDetails();
+                if (model != null)
+                {
+                    AddAddressRequest addAddressRequest = new AddAddressRequest();
+                    addAddressRequest.Address = model.Address;
+                    addAddressRequest.City = model.City;
+                    addAddressRequest.State = model.State;
+                    addAddressRequest.Country = model.Country;
+                    addAddressRequest.Address2 = model.Address2 ;
+                    addAddressRequest.UserId = model.UserId;
+
+                    var address = await _userAddressRepository.AddUserAddressData(addAddressRequest);
+                    response.Success = true;
+                    response.Message = "User Address Add Successfully";
+                    response.Details = userDetails;
+
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "User Details Not Add Successfully.";
+                    response.Details = null;
+                }
+
+                return response;
+
+            }
+            catch (Exception ex)
             {
                 throw;
             }

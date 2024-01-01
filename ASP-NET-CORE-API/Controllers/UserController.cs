@@ -51,5 +51,17 @@ namespace ASP_NET_CORE_API.Controllers
             });
         }
 
+        [HttpPost("AddUserAddress")]
+        [ProducesResponseType(typeof(SingleUserResponse), 200)]
+        public async Task<IActionResult> AddUserAddress(AddAddressRequest model)
+        {
+            var response = await _userService.AddUserAddress(model).ConfigureAwait(false);
+            return Ok(new
+            {
+                Data = response
+            });
+        }
+
+
     }
 }

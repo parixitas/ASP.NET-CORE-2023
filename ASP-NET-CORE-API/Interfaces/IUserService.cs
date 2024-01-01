@@ -10,5 +10,7 @@ namespace ASP_NET_CORE_API.Interfaces
         Task<SingleUserResponse> GetUser(int UserId);
 
         Task<SingleUserResponse> AddUser(UserDetailRequest model);
+
+        Task<SingleUserResponse> AddUserAddress(AddAddressRequest model);
     }
 }
